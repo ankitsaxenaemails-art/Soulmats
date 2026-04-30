@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soulmats — 36 Ad Bible</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0e0c;
+  --surface: #171613;
+  --card: #1e1b17;
+  --border: rgba(255,255,255,0.07);
+  --text: #e8e2d6;
+  --muted: #6e6a62;
+  --sage: #7d9b7a;
+  --clay: #c49068;
+  --gold: #c8a84b;
+  --lavender: #9b8fbc;
+  --rose: #b87878;
+  --clarity: #7d9b7a;
+  --restoration: #9b8fbc;
+  --nature: #c8a84b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;font-size:14px;line-height:1.6}
+
+/* HERO */
+.hero{padding:4rem 3rem 3rem;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 40%,rgba(200,168,75,0.06) 0%,transparent 60%);pointer-events:none}
+.hero-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--clay);margin-bottom:1.2rem}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:300;line-height:1.05;margin-bottom:1rem}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero-stats{display:flex;gap:2.5rem;flex-wrap:wrap;margin-top:2rem}
+.hero-stat{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.08em}
+.hero-stat strong{display:block;font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--gold);line-height:1;margin-bottom:3px}
+
+/* NAV */
+.nav{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;display:flex;overflow-x:auto;padding:0 2rem}
+.nav-btn{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;padding:1rem 1.25rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s;flex-shrink:0;background:none;border-left:none;border-right:none;border-top:none}
+.nav-btn:hover{color:var(--text)}
+.nav-btn.active{color:var(--clay);border-bottom-color:var(--clay)}
+.nav-btn.c{color:#7d9b7a}.nav-btn.c.active{color:#7d9b7a;border-bottom-color:#7d9b7a}
+.nav-btn.r{color:#9b8fbc}.nav-btn.r.active{color:#9b8fbc;border-bottom-color:#9b8fbc}
+.nav-btn.n{color:#c8a84b}.nav-btn.n.active{color:#c8a84b;border-bottom-color:#c8a84b}
+
+/* SECTIONS */
+.section{display:none;padding:2.5rem 3rem;max-width:1100px;margin:0 auto}
+.section.active{display:block}
+
+/* MAT HEADER */
+.mat-header{margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.mat-collection-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.5rem}
+.mat-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;margin-bottom:0.4rem}
+.mat-symbol{font-size:13px;color:var(--muted);margin-bottom:1rem}
+.mat-meaning{font-size:13px;color:rgba(232,226,214,0.6);line-height:1.75;max-width:620px;margin-bottom:1rem;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px}
+.mat-avatar{font-size:12.5px;color:var(--muted);line-height:1.7;max-width:580px}
+.mat-avatar strong{color:var(--clay);font-weight:400}
+
+/* AD TABS */
+.ad-tabs{display:flex;gap:6px;margin-bottom:1.5rem}
+.ad-tab{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--border);border-radius:99px;cursor:pointer;background:none;color:var(--muted);transition:all 0.15s}
+.ad-tab:hover{border-color:var(--clay);color:var(--clay)}
+.ad-tab.active{background:var(--card);border-color:var(--clay);color:var(--clay)}
+
+/* AD PANELS */
+.ad-panel{display:none}
+.ad-panel.active{display:block}
+
+.ad-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem}
+.tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:99px}
+.t-cold{background:rgba(125,155,122,0.12);color:var(--sage)}
+.t-warm{background:rgba(155,143,188,0.12);color:var(--lavender)}
+.t-hot{background:rgba(184,120,120,0.12);color:var(--rose)}
+.t-format{background:rgba(196,144,104,0.15);color:var(--clay)}
+.t-hook{background:rgba(17,15,12,1);color:rgba(232,226,214,0.7);border:1px solid var(--border)}
+
+.ad-body{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem 2.5rem;font-family:'Cormorant Garamond',serif;font-size:16px;line-height:1.95;color:var(--text)}
+.ad-body p{margin-bottom:1.1rem}
+.ad-body p:last-child{margin-bottom:0}
+.hook-p{font-size:17px;font-weight:400;border-left:2px solid var(--clay);padding-left:16px;margin-bottom:1.25rem;color:var(--text)}
+.dialogue{font-style:italic;padding-left:20px;border-left:1px solid rgba(196,144,104,0.3);color:rgba(232,226,214,0.85)}
+.cta-p{font-weight:400;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.bold-p{font-weight:600}
+.why-box{background:rgba(125,155,122,0.07);border:1px solid rgba(125,155,122,0.2);border-radius:8px;padding:1rem 1.25rem;margin-top:1.5rem;font-family:'Jost',sans-serif;font-size:12px;color:rgba(232,226,214,0.6);line-height:1.7}
+.why-box strong{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sage);display:block;margin-bottom:4px}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .hero{padding:2rem 1.25rem}
+  .section{padding:2rem 1.25rem}
+  .ad-body{padding:1.5rem}
+  .hero-stats{gap:1.5rem}
+  .nav{padding:0 0.75rem}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Soulmats · 36-Ad Campaign Bible · Full Framework Applied</div>
+  <h1>Every Mat.<br><em>Every Angle.</em></h1>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>12</strong>Mats</div>
+    <div class="hero-stat"><strong>36</strong>Full Scripts</div>
+    <div class="hero-stat"><strong>3</strong>Awareness Levels Each</div>
+    <div class="hero-stat"><strong>Phase 1–5</strong>Framework Applied</div>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="showSection('overview',this)">Overview</button>
+  <button class="nav-btn c" onclick="showSection('ascension',this)">Ascension</button>
+  <button class="nav-btn c" onclick="showSection('potential',this)">Potential</button>
+  <button class="nav-btn c" onclick="showSection('order',this)">Order</button>
+  <button class="nav-btn c" onclick="showSection('connection',this)">Connection</button>
+  <button class="nav-btn r" onclick="showSection('light',this)">Light</button>
+  <button class="nav-btn r" onclick="showSection('power',this)">Power</button>
+  <button class="nav-btn r" onclick="showSection('release',this)">Release</button>
+  <button class="nav-btn r" onclick="showSection('time',this)">Time</button>
+  <button class="nav-btn n" onclick="showSection('alignment',this)">Alignment</button>
+  <button class="nav-btn n" onclick="showSection('silence',this)">Silence</button>
+  <button class="nav-btn n" onclick="showSection('rebirth',this)">Rebirth</button>
+  <button class="nav-btn n" onclick="showSection('roots',this)">Roots</button>
+</div>
+
+<!-- OVERVIEW -->
+<div class="section active" id="sec-overview">
+  <div style="max-width:700px">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--clay);margin-bottom:1rem">How to use this bible</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;margin-bottom:1.5rem;line-height:1.2">Each mat has a different buyer.<br>Each buyer needs a different entry point.</div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:1.25rem">The framework is constant. The avatar, the dominant emotion, the inciting incident, and the symbol energy are specific to each mat. Every ad is built from Phase 1 research — not guessed, not templated.</p>
+    <p style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:2rem">Each mat has 3 ads: <span style="color:var(--sage)">Cold (Problem Aware)</span> · <span style="color:var(--lavender)">Warm (Solution Aware)</span> · <span style="color:var(--rose)">Retargeting (Product Aware)</span></p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:2rem">
+      <div style="background:var(--card);padding:1.25rem">
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sage);margin-bottom:0.5rem">Cold — Problem Aware</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;margin-bottom:0.4rem">Permission Hook</div>
+        <div style="font-size:11.5px;color:var(--muted);line-height:1.6">Does not mention the mat until 55–65% through. Builds emotional weight first. Blame-shifts before the product appears. Avatar: never heard of Soulmats.</div>
+      </div>
+      <div style="background:var(--card);padding:1.25rem">
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--lavender);margin-bottom:0.5rem">Warm — Solution Aware</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;margin-bottom:0.4rem">Skeptic Validation Hook</div>
+        <div style="font-size:11.5px;color:var(--muted);line-height:1.6">Opens by mirroring their skepticism. Validates past failures. Introduces the mechanism as why this is different. Avatar: seen an ad, still on the fence.</div>
+      </div>
+      <div style="background:var(--card);padding:1.25rem">
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--rose);margin-bottom:0.5rem">Retargeting — Product Aware</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;margin-bottom:0.4rem">Symbol Energy Hook</div>
+        <div style="font-size:11.5px;color:var(--muted);line-height:1.6">Speaks to the symbol directly. "Your symbol is waiting." Short, specific, assumes the relationship exists. Avatar: visited site, did not purchase.</div>
+      </div>
+    </div>
+
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--clay);margin-bottom:1rem">Collection colour coding</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:12px"><div style="width:12px;height:12px;border-radius:50%;background:var(--clarity)"></div><span style="font-size:12px;color:var(--muted)">Clarity — Ascension · Potential · Order · Connection</span></div>
+      <div style="display:flex;align-items:center;gap:12px"><div style="width:12px;height:12px;border-radius:50%;background:var(--restoration)"></div><span style="font-size:12px;color:var(--muted)">Restoration — Light · Power · Release · Time</span></div>
+      <div style="display:flex;align-items:center;gap:12px"><div style="width:12px;height:12px;border-radius:50%;background:var(--nature)"></div><span style="font-size:12px;color:var(--muted)">Nature — Alignment · Silence · Rebirth · Roots</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── AD DATA ──
+const MATS = {
+  ascension: {
+    collection:'Clarity',collectionColor:'var(--clarity)',
+    name:'Sanctuary of Ascension',symbol:'Merkaba Star Tetrahedron',
+    meaning:'Two interlocking pyramids — earth meeting sky, masculine meeting feminine, matter meeting spirit. The Merkaba is a vehicle of light. Humans have drawn this symbol for over 4,000 years as a representation of the soul rising into higher states of awareness.',
+    avatar:'She is a seeker. Already spiritually curious — reads about sacred geometry, maybe follows astrology, has crystals on her windowsill. But she cannot get the inner life and the outer life to meet. She meditates in theory. In practice she is always preparing to start.',
+    ads: {
+      cold: {
+        label:'Cold — Problem Aware',tagClass:'t-cold',
+        format:'UGC Reel · 60s',hook:'Permission Hook',
+        text:[
+          {type:'hook', text:"If you've been collecting spiritual tools for years and still feel like you haven't actually started — I want you to stay with me for a minute."},
+          {text:"I have crystals I've never activated. A tarot deck I've shuffled twice. A meditation cushion that doubles as a cat bed. Books I've highlighted but not lived."},
+          {text:"For years I thought I was building toward something. A practice. A version of myself that was more grounded, more present, more — I don't know. More here."},
+          {text:"But I kept waiting to feel ready. Kept thinking I needed one more thing. One more course. One more symbol. One more understanding before I could actually begin."},
+          {text:"And one night I sat down with all of it around me and realised I'd been curating a spiritual life without ever inhabiting one."},
+          {text:"A friend said something I couldn't shake: 'You can't ascend from your head. The body has to have a place to land first.'"},
+          {text:"She was right. All my seeking had been intellectual. I'd never given my nervous system a physical anchor. A specific place where, through repetition, it learned: here, you are allowed to arrive."},
+          {type:'product', text:"That's what the Merkaba mat did for me."},
+          {text:"The Merkaba — two interlocking pyramids, earth meeting sky — is one of the oldest ascension symbols humans have ever used. Not as decoration. As an actual anchor for the upward movement of awareness."},
+          {text:"Standing on it every morning with the 21-day audio series, six minutes, same time, same symbol — my nervous system started to recognise it. And then something shifted. Not dramatically. Just — the ceiling lifted slightly."},
+          {text:"I started arriving at my day differently. Like I'd already been somewhere first."},
+          {type:'cta', text:"It's soulmats.us — the Sanctuary of Ascension. If you've been seeking for years and still feel like you haven't quite landed — this is the physical place you've been missing. 21 days of guided audio included. If it doesn't become your place, full refund. Nothing to lose except the waiting."}
+        ],
+        why:"The avatar is spiritually sophisticated but practically stuck. The hook meets her exactly: she has the tools, not the practice. The blame shift — 'you've been curating without inhabiting' — reframes years of failed attempts without shaming her. The Merkaba's meaning is woven in as mechanism, not decoration."
+      },
+      warm: {
+        label:'Warm — Solution Aware',tagClass:'t-warm',
+        format:'UGC Reel · 45s',hook:'Skeptic Validation Hook',
+        text:[
+          {type:'hook', text:"I know. Another sacred geometry product. I thought the same thing."},
+          {text:"I already had a Merkaba pendant. A sacred geometry journal. A poster of the Flower of Life above my desk. I'd spent probably four hundred dollars on tools that were supposed to help me feel more connected to something."},
+          {text:"None of it touched the daily exhaustion. The scatteredness. The feeling of being pulled in twelve directions and never quite landing anywhere."},
+          {text:"What I didn't understand — what nobody had explained to me — is that symbols work on the nervous system through repetition in physical space. Not through owning them. Through returning to them. In the same place. Every day."},
+          {text:"The Merkaba on your pendant doesn't teach your body anything. But the Merkaba beneath your feet, same mat, same six minutes, same symbol, twenty-one mornings in a row — your nervous system starts to know. Here, I rise. Here, I come home to the higher version."},
+          {text:"Week three I was in the worst meeting of my month. Something really hard. And I felt my feet on the floor and thought: I know where I'm going after this. That was the Merkaba working. Not mystically. Physiologically. I'd given my body a place to return to."},
+          {type:'cta', text:"Soulmats — the Sanctuary of Ascension. soulmats.us. The symbol you've been drawn to needs a floor beneath it."}
+        ],
+        why:"Validates the spiritually-informed but product-burned buyer. She has already bought symbols — the mechanism explains why those didn't work (no physical repetition anchor) without dismissing her. Converts belief in symbols into belief in THIS product."
+      },
+      retarget: {
+        label:'Retargeting — Product Aware',tagClass:'t-hot',
+        format:'Static Image + Short Copy',hook:'Symbol Energy Hook',
+        text:[
+          {type:'hook', text:"The Merkaba has been waiting."},
+          {text:"Two pyramids. Earth rising. Sky descending. The symbol humans have used for 4,000 years to mark the place where ascension begins."},
+          {text:"You've been thinking about it. That means something. The symbols that call to us are rarely accidental."},
+          {text:"Your Sanctuary of Ascension mat is still here. 21 days of guided audio, included. Six minutes every morning to teach your nervous system that this is where you rise."},
+          {type:'cta', text:"soulmats.us — your Merkaba is waiting for your feet."}
+        ],
+        why:"Short. Direct. Assumes the relationship. 'You've been thinking about it' is the retargeting hook that acknowledges without pressuring. 'The symbols that call to us are rarely accidental' speaks the spiritual buyer's language."
+      }
+    }
+  },
+
+  potential: {
+    collection:'Clarity',collectionColor:'var(--clarity)',
+    name:'Sanctuary of Potential',symbol:'Seed of Life',
+    meaning:'Seven overlapping circles — the origin point of the Flower of Life. It represents new beginnings, the seven days of creation, and the infinite creative potential held within a single still moment.',
+    avatar:'She is at a beginning — or wants to be. A career change she has been putting off, a creative project that lives in a notebook, a version of herself she has been meaning to step into for two years. She is full of potential and paralysed by it. The gap between who she is and who she could be is exhausting.',
+    ads: {
+      cold: {
+        label:'Cold — Problem Aware',tagClass:'t-cold',
+        format:'UGC Reel · 65s',hook:'Permission Hook',
+        text:[
+          {type:'hook', text:"If you have a note on your phone called 'ideas' that you haven't opened in six months — this is for you."},
+          {text:"I had been 'about to start' for two and a half years. The business idea. The creative project. The version of myself that was finally doing the thing instead of planning it."},
+          {text:"I had notebooks full of beginnings. Subscriptions to newsletters about productivity. I'd listened to so many podcasts about 'unlocking your potential' that the phrase had stopped meaning anything."},
+          {text:"And every morning I'd wake up and feel the gap. Between who I was and who I kept almost being. And instead of closing it I'd scroll. Or plan some more. Or tell myself I'd start tomorrow."},
+          {text:"The exhausting thing about potential is that it never goes away. It just sits there. Quietly. Reminding you."},
+          {text:"What shifted for me wasn't motivation. It was something a mentor said: 'You're trying to access creative energy mentally. But the body doesn't release potential through thinking. It releases through returning — to a specific, intentional, physical space — until that space becomes associated with who you're becoming.'"},
+          {text:"I didn't need more inspiration. I needed a place that knew I was becoming."},
+          {type:'product', text:"That's the Seed of Life mat. Seven circles — the origin point of all creation, the symbol humans have used to mark new beginnings for thousands of years."},
+          {text:"Every morning I step on it. Six minutes of audio. Same symbol beneath my feet. And over three weeks something shifted. Not explosively. Just — the gap started closing. Quietly. One morning at a time."},
+          {text:"I launched the project in week four."},
+          {type:'cta', text:"soulmats.us — the Sanctuary of Potential. If your beginning keeps waiting for the right moment — give it a place to start from."}
+        ],
+        why:"Avatar is the perpetual 'about-to-start' person. The hook is precise and non-threatening. The mechanism — body releases potential through physical return, not mental effort — is the reframe that makes the product feel inevitable."
+      },
+      warm: {
+        label:'Warm — Solution Aware',tagClass:'t-warm',
+        format:'UGC Reel · 40s',hook:'Skeptic Validation',
+        text:[
+          {type:'hook', text:"I've done the vision boards. I've done the morning pages. I've read the books. Still felt stuck."},
+          {text:"The Seed of Life mat was not what I expected to be the thing. A yoga mat. With a symbol. And audio. I'll be honest — I almost didn't buy it."},
+          {text:"But my therapist had said something months earlier that kept coming back: 'You're doing all your growth work in your head. Your body doesn't know you're changing yet. It needs a physical place to associate with the new version of you.'"},
+          {text:"The Seed of Life — the origin of creation, the symbol of new beginnings — beneath my feet every morning. Six minutes. Twenty-one days."},
+          {text:"By week two I noticed something. When I sat down to work on the project I'd been avoiding, the resistance was lighter. Not gone. Lighter. Like my body had started believing I was someone who begins things."},
+          {type:'cta', text:"Soulmats — Sanctuary of Potential. The beginning you keep delaying deserves a place. soulmats.us"}
+        ],
+        why:"Short and sharp for warm audiences. Therapist as secondary character adds credibility without sounding like an ad. The result is specific and believable — 'resistance was lighter, not gone.'"
+      },
+      retarget: {
+        label:'Retargeting — Product Aware',tagClass:'t-hot',
+        format:'Static Image + Copy',hook:'Symbol Energy Hook',
+        text:[
+          {type:'hook', text:"Seven circles. The origin of everything."},
+          {text:"The Seed of Life is the moment before creation. The held breath before the beginning. Every new thing that has ever existed was once just this — potential, perfectly still, waiting for the right place to land."},
+          {text:"You already know what you're becoming. You've known for a while."},
+          {text:"Your Sanctuary of Potential is waiting. 21 days of audio, included. Give your beginning a floor."},
+          {type:'cta', text:"soulmats.us"}
+        ],
+        why:"'You already know what you're becoming' speaks directly to the avatar who has been circling a new chapter. Short, poetic, assumes the desire is already there."
+      }
+    }
+  },
+
+  order: {
+    collection:'Clarity',collectionColor:'var(--clarity)',
+    name:'Sanctuary of Order',symbol:"Metatron's Cube",
+    meaning:"Contains all five Platonic solids — the geometric building blocks of the universe. Represents divine order, the structure beneath all things, and the mind finding its rightful place within the cosmos.",
+    avatar:"She is the person who holds everything together. The planner, the organiser, the one who everyone leans on. Her chaos is internal — beneath the competence is a mind that never stops running, never finds the structure it is creating for everyone else. She needs order on the inside.",
+    ads: {
+      cold: {
+        label:'Cold — Problem Aware',tagClass:'t-cold',
+        format:'UGC Reel · 60s',hook:'Permission Hook',
+        text:[
+          {type:'hook', text:"If you're the person who has everyone else's life organised and can't find five minutes of stillness in your own — stay here."},
+          {text:"I have colour-coded calendars. I have systems. I run the household, manage the team, track the budget, remember everyone's appointments. I am, by any external measure, extremely organised."},
+          {text:"And inside my head it is absolute chaos."},
+          {text:"I cannot turn it off. The planning, the tracking, the solving, the anticipating. Even when everything is fine I am scanning for what might not be fine. My brain treats rest as a vulnerability."},
+          {text:"I tried meditation. The apps told me to clear my mind. My mind laughed and produced three more to-do lists."},
+          {text:"What I needed wasn't emptiness. I needed structure on the inside that matched the structure I was creating on the outside."},
+          {text:"That's when someone explained Metatron's Cube to me. Not as a design — as a concept. It contains all five Platonic solids. Every geometric structure the universe is built from. It is the symbol of divine order — the idea that beneath the apparent chaos, there is always a structure. Always a pattern holding it all."},
+          {text:"Standing on it every morning — same mat, same symbol, same six minutes of audio — my nervous system started to learn: here, order exists. Here, the mind can stop scanning because the structure is already present."},
+          {text:"By week two I sat down at my desk and felt something I hadn't felt in years. I felt like I was inside something held. Not controlling it. Inside it."},
+          {type:'cta', text:"Soulmats — Sanctuary of Order. soulmats.us. For the person who creates order everywhere except inside themselves."}
+        ],
+        why:"Avatar is the high-functioning organiser whose inner life is the one thing she cannot systematise. The Metatron's Cube meaning is introduced as mechanism — it doesn't empty the mind, it gives the mind a structure to trust. That distinction converts this specific buyer."
+      },
+      warm: {
+        label:'Warm — Solution Aware',tagClass:'t-warm',
+        format:'UGC Reel · 40s',hook:'Skeptic Validation',
+        text:[
+          {type:'hook', text:"I've tried every productivity-adjacent wellness thing and none of them helped my brain stop running."},
+          {text:"The problem wasn't that I needed to relax. I can't relax by trying to relax. I needed something with structure — something that gave my pattern-seeking brain a pattern to rest inside."},
+          {text:"Metatron's Cube. The geometric foundation of the universe. All five Platonic solids. Pure structural order beneath your feet."},
+          {text:"Six minutes every morning. Twenty-one days. My brain stopped fighting the stillness once it had a shape to hold onto."},
+          {text:"I'm still the planner. Still the organiser. But now I start from a place that isn't frantic. That's the difference."},
+          {type:'cta', text:"Sanctuary of Order. soulmats.us. Give your mind a structure it can trust."}
+        ],
+        why:"Sharp and specific for the warm audience. 'I needed something with structure' is the exact internal language of this avatar. Quick, credible, specific result."
+      },
+      retarget: {
+        label:'Retargeting — Product Aware',tagClass:'t-hot',
+        format:'Static Image + Copy',hook:'Symbol Energy',
+        text:[
+          {type:'hook', text:"Every structure in the universe is contained in this one symbol."},
+          {text:"Metatron's Cube holds all five Platonic solids — the geometric building blocks of everything. It is the reminder that beneath the chaos, order always exists. Always has."},
+          {text:"You build order for everyone. This is where you find it for yourself."},
+          {type:'cta', text:"Your Sanctuary of Order. soulmats.us — 21 days included."}
+        ],
+        why:"Three lines. The mirror: 'you build order for everyone, this is where you find it for yourself' is the emotional close that converts this avatar."
+      }
+    }
+  },
+
+  connection: {
+    collection:'Clarity',collectionColor:'var(--clarity)',
+    name:'Sanctuary of Connection',symbol:'Flower of Life',
+    meaning:'One of the oldest sacred symbols on earth — found across cultures and centuries. Its overlapping circles show that all life is connected, emerging from the same source, growing in the same pattern.',
+    avatar:'She feels lonely in a way that is hard to explain — not friendless, not isolated, but somehow disconnected. From herself, from what matters, from a sense of belonging to something larger. She scrolls a lot. She gives a lot. She often feels like the most unwitnessed person in a room full of people.',
+    ads: {
+      cold: {
+        label:'Cold — Problem Aware',tagClass:'t-cold',
+        format:'UGC Reel · 65s',hook:'Permission Hook',
+        text:[
+          {type:'hook', text:"If you've ever felt like the loneliest person in a full room — not because nobody was there, but because you weren't quite there yourself — this is going to sound familiar."},
+          {text:"I am well-connected by most measures. Friends, family, a job where I work with people all day. I am never technically alone."},
+          {text:"But somewhere in my mid-thirties I stopped being able to find myself in the middle of all of it. Like I was handing myself out in pieces and losing track of where the rest of me went."},
+          {text:"I would get home and feel completely empty. Not tired. Empty. Like I'd been everywhere and nowhere at the same time."},
+          {text:"I tried meditation. I'd sit there and think about my grocery list and then feel guilty about thinking about my grocery list and then the ten minutes would be up and nothing had changed."},
+          {text:"What I eventually understood — through a lot of trial and error — is that disconnection from yourself isn't solved by trying harder to be present. It's solved by having somewhere that knows you're there. A physical place where your body has learned: here, you belong to yourself."},
+          {text:"The Flower of Life has been found on temple walls on every inhabited continent. Thousands of years. Different cultures, different languages, different everything — and they all drew the same symbol. Why? Because it holds the truth that everything comes from one source. That connection is not something you achieve. It's something you return to."},
+          {text:"Stepping onto that mat every morning, six minutes, the same symbol beneath my feet — my body started to learn that returning was possible. That I could find the thread back."},
+          {text:"I didn't become less busy. I just stopped losing myself in the busyness."},
+          {type:'cta', text:"Soulmats — Sanctuary of Connection. soulmats.us. If you've been handing yourself out in pieces, this is where you collect them back."}
+        ],
+        why:"The avatar is the giver-of-self who has lost herself. The specific line 'handing yourself out in pieces and losing track' is the exact private language of this buyer. The Flower of Life meaning connects to the theme of returning to source — which is the theme of her whole life."
+      },
+      warm: {
+        label:'Warm — Solution Aware',tagClass:'t-warm',
+        format:'UGC Reel · 45s',hook:'Skeptic Validation',
+        text:[
+          {type:'hook', text:"I know what disconnection looks like when it's dressed as being present for everyone else."},
+          {text:"I'd tried journaling, therapy, yoga, girls' weekends. All of it helped. None of it fixed the thing underneath — the feeling of being a stranger to myself."},
+          {text:"The Flower of Life is found on ancient temples everywhere. Every culture drew it. Because it holds the one truth they all knew: everything returns to its source. Connection isn't built. It's remembered."},
+          {text:"Six minutes on this mat every morning. Twenty-one days. The symbol beneath my feet, the audio in my ears, the same intentional return — my nervous system started to trust that I could always find my way back."},
+          {text:"I stopped dreading the quiet. The quiet was where I was."},
+          {type:'cta', text:"Sanctuary of Connection. soulmats.us. You haven't lost yourself. You just need somewhere to return to."}
+        ],
+        why:"'A stranger to myself' is verbatim audience language. The close — 'you haven't lost yourself, you just need somewhere to return to' — directly answers the dominant fear without dismissing it."
+      },
+      retarget: {
+        label:'Retargeting — Product Aware',tagClass:'t-hot',
+        format:'Static Image + Copy',hook:'Symbol Energy',
+        text:[
+          {type:'hook', text:"The Flower of Life was found on every continent. Thousands of years. Every culture."},
+          {text:"Because they all knew the same thing: connection is not built. It is remembered. You came from somewhere. You can always return."},
+          {text:"You've been thinking about this mat. That's not a coincidence."},
+          {type:'cta', text:"Your Sanctuary of Connection is waiting. soulmats.us — 21 days of audio, included."}
+        ],
+        why:"Historical fact as trust-builder. 'That's not a coincidence' speaks the spiritual buyer's language of being drawn to something for a reason."
+      }
+    }
+  },
+
+  light: {
+    collection:'Restoration',collectionColor:'var(--restoration)',
+    name:'Sanctuary of Light',symbol:'Dai Ko Myo',
+    meaning:'The Reiki master symbol — translated as "great shining light." Works at the soul level, illuminating what has been hidden and inviting the deepest healing. The most powerful symbol in the Reiki tradition.',
+    avatar:'She has been in some kind of healing journey. Therapy, maybe Reiki sessions, possibly a significant loss or difficulty in the last few years. She is not at rock bottom — she has done work. But she feels like something is still dark. Like there is a part of her that the healing has not quite reached yet.',
+    ads: {
+      cold: {
+        label:'Cold — Problem Aware',tagClass:'t-cold',
+        format:'UGC Reel · 65s',hook:'Permission Hook',
+        text:[
+          {type:'hook', text:"If you've done the healing work — the therapy, the journaling, the self-inquiry — and there's still something that feels just out of reach in the dark, I see you."},
+          {text:"I spent three years in therapy. Good therapy. I did the work. I understood my patterns, my childhood, my triggers. I could talk about myself with real clarity."},
+          {text:"And there was still this place. Somewhere underneath all the understanding. Something that the words hadn't touched."},
+          {text:"I started wondering if some healing doesn't happen through talking at all. If there are parts of us that are pre-verbal. Pre-cognitive. That only respond to something older."},
+          {text:"Dai Ko Myo is the master symbol of Reiki. It means great shining light. Practitioners say it works at the soul level — at the place beneath the stories, beneath the patterns, beneath everything the mind has already processed. It illuminates what has been hidden."},
+          {text:"I was skeptical. I want to be honest about that."},
+          {text:"But I was also out of tools. And sometimes you try the thing you said you'd never try."},
+          {text:"The Dai Ko Myo mat. Six minutes every morning. The same symbol beneath my feet. The guided audio teaching my nervous system that this is the place where it's safe to let the hidden things surface."},
+          {text:"Week three. I was just standing there. Not doing anything. And something moved. Something I'd been holding somewhere I didn't know I'd been holding it."},
+          {text:"I can't fully explain it. But something that felt dark for a long time felt lighter."},
+          {type:'cta', text:"soulmats.us — Sanctuary of Light. Some healing doesn't happen through words. Give it a place to happen without them."}
+        ],
+        why:"Avatar is the therapy-veteran who has done the intellectual work but hasn't reached the somatic/soul-level material. The hook meets her exactly. The mechanism — pre-verbal, pre-cognitive healing — explains why this works when talking hasn't. The result is honest: 'something moved' rather than 'I was healed.'"
+      },
+      warm: {
+        label:'Warm — Solution Aware',tagClass:'t-warm',
+        format:'UGC Reel · 45s',hook:'Skeptic Validation',
+        text:[
+          {type:'hook', text:"I'd done enough healing work to be very skeptical of anything that claimed to go deeper."},
+          {text:"Dai Ko Myo. Great shining light. The master Reiki symbol. I knew what it was. I'd had Reiki sessions. I hadn't done this — standing on the symbol, same mat, same audio, same intentional return, every single morning."},
+          {text:"There's a difference between receiving energy work from someone else and training your own nervous system to enter that state on its own. The mat does the second thing."},
+          {text:"Twenty-one days in, something shifted that I'd been working toward for three years. I don't know what to call it except — the light got in."},
+          {type:'cta', text:"Sanctuary of Light. soulmats.us. The symbol you know. The practice you haven't tried yet."}
+        ],
+        why:"'The symbol you know, the practice you haven't tried yet' is a perfect solution-aware close — it validates their existing belief in the symbol while positioning the product as a new and different application of it."
+      },
+      retarget: {
+        label:'Retargeting — Product Aware',tagClass:'t-hot',
+        format:'Static Image + Copy',hook:'Symbol Energy',
+        text:[
+          {type:'hook', text:"Dai Ko Myo. Great shining light."},
+          {text:"The Reiki masters say it works at the level beneath words. Beneath stories. Beneath everything the mind has already processed. It illuminates what has been hidden."},
+          {text:"Some things don't heal through understanding. They heal through returning, every morning, to the place where the light is already waiting."},
+          {type:'cta', text:"Your Sanctuary of Light. soulmats.us — 21 days of guided audio, included."}
+        ],
+        why:"Poetic and direct. 'The light is already waiting' assumes the buyer is on their way — doesn't need to be convinced, needs to be given permission to arrive."
+      }
+    }
+  },
+
+  power: {
+    collection:'Restoration',collectionColor:'var(--restoration)',
+    name:'Sanctuary of Power',symbol:'Cho Ku Rei',
+    meaning:'The Reiki power symbol — a spiral that draws universal energy into a focused point. Amplifies intention, clears space, and calls in protection. Turns scattered energy into directed force.',
+    avatar:'She feels diffuse. Like her energy goes everywhere and nowhere. She starts things and loses momentum. She has plenty of capability but it leaks out in too many directions. She is not burnt out — she is scattered. She wants to feel like herself but more focused.',
+    ads: {
+      cold: {
+        label:'Cold — Problem Aware',tagClass:'t-cold',
+        format:'UGC Reel · 60s',hook:'Permission Hook',
+        text:[
+          {type:'hook', text:"If you know you're capable of more than you're producing and can't figure out why the gap won't close — this might be what you've been missing."},
+          {text:"I am not lazy. I know that. I have evidence of it — things I've built, things I've done. But for the past two years my energy has felt like water from a hose with a hundred holes. Everywhere and nowhere."},
+          {text:"I start projects. I'm good at starting. The momentum just dissolves somewhere around week three. And I don't know why because I still want the thing. I still believe in it. The energy just... leaks."},
+          {text:"I tried focus apps. Time blocking. Dopamine detoxes. A whole system for my system. The organisation of the energy was never the problem. The energy itself was scattered."},
+          {text:"Someone told me about Cho Ku Rei. The Reiki power symbol — a spiral that draws energy from everywhere and focuses it into a single point. Amplification. Concentration. The transformation of scattered force into directed force."},
+          {text:"I was not a Reiki person. I want to be clear about that. But the concept made sense to me in a way that nothing else had. Not because it was mystical — because it was structural. My energy wasn't weak. It was unfocused."},
+          {text:"Standing on the Cho Ku Rei mat every morning, six minutes of audio, the same spiral beneath my feet teaching my nervous system what focused arrival feels like — something started to consolidate."},
+          {text:"By week three the leaking slowed. Not stopped — slowed. But the difference between scattered and even slightly focused is enormous when you've been scattered for two years."},
+          {type:'cta', text:"Soulmats — Sanctuary of Power. soulmats.us. Your energy isn't weak. It just needs somewhere to concentrate."}
+        ],
+        why:"The avatar is the capable-but-scattered person whose problem is diffusion, not deficiency. 'Water from a hose with a hundred holes' is vivid, specific, lived. The mechanism — Cho Ku Rei as concentration symbol — is introduced structurally, which works for this rational, systems-oriented avatar."
+      },
+      warm: {
+        label:'Warm — Solution Aware',tagClass:'t-warm',
+        format:'UGC Reel · 40s',hook:'Skeptic Validation',
+        text:[
+          {type:'hook', text:"I've tried every productivity and focus system. They all organised my scattered energy. None of them concentrated it."},
+          {text:"Cho Ku Rei is the Reiki power symbol — a spiral that draws force into a focused point. Not motivation. Concentration of what's already there."},
+          {text:"Six minutes every morning on the mat. Same symbol, same return. My nervous system learned what it feels like to arrive somewhere fully. That carried into the rest of the day."},
+          {text:"I still have the hundred-holes days. But I have more days now where I feel like a full hose."},
+          {type:'cta', text:"Sanctuary of Power. soulmats.us. Give your energy a point to gather at."}
+        ],
+        why:"'Full hose vs hundred holes' callback to the cold ad language. Honest result ('I still have scattered days') builds credibility. Clean and direct for warm audiences."
+      },
+      retarget: {
+        label:'Retargeting — Product Aware',tagClass:'t-hot',
+        format:'Static Image + Copy',hook:'Symbol Energy',
+        text:[
+          {type:'hook', text:"Cho Ku Rei. The power symbol. A spiral drawing everything scattered back into a single point."},
+          {text:"Your energy is not the problem. Where it's going is."},
+          {text:"Six minutes every morning. Twenty-one days. Your power, concentrated."},
+          {type:'cta', text:"Your Sanctuary of Power. soulmats.us"}
+        ],
+        why:"Four sentences. Maximum compression. For someone who already knows the brand, this is a focused match of the symbol's energy."
+      }
+    }
+  },
+
+  release: {
+    collection:'Restoration',collectionColor:'var(--restoration)',
+    name:'Sanctuary of Release',symbol:'Sei He Ki',
+    meaning:'The Reiki mental and emotional healing symbol — works directly with the subconscious, releasing stored emotional patterns and bringing the mind and heart into harmony. It works below the level of conscious thought.',
+    avatar:'She is carrying something she cannot fully articulate. Old grief, old anger, an emotion that never got processed and is now just a low hum underneath everything. She does not need to be told what to feel. She needs somewhere safe enough to let what is already there finally move.',
+    ads: {
+      cold: {
+        label:'Cold — Problem Aware',tagClass:'t-cold',
+        format:'UGC Reel · 65s',hook:'Permission Hook',
+        text:[
+          {type:'hook', text:"If you have something you've been carrying for so long that you've stopped noticing the weight — this is for you."},
+          {text:"I could not have told you what I was holding. That was the strange thing. It wasn't one thing. It was the accumulated residue of years of things that didn't get fully felt because there wasn't time, or it wasn't safe, or I just kept moving."},
+          {text:"I wasn't depressed. I wasn't in crisis. I was just — heavier than I should have been. And a little bit numb in a way I'd gotten used to."},
+          {text:"I'd tried journaling. The prompts asked me to name what I was feeling and I would stare at the page. I didn't know. The thing was below the level I could reach with words."},
+          {text:"Sei He Ki is the Reiki emotional healing symbol. It works subconsciously — below the level of deliberate thought. It doesn't ask you to name anything. It just creates the conditions for what's stored to finally move."},
+          {text:"I didn't know that was what I needed until I found out what it felt like."},
+          {text:"Three weeks on the mat. Six minutes every morning. The same symbol beneath my feet, the audio guiding me to just be there."},
+          {text:"Day seventeen. I was just standing on the mat. And something moved. I started crying and I didn't know why and I didn't need to know why. Something that had been held released."},
+          {text:"I felt lighter for the first time in years. Not happy — lighter. Like I'd been carrying bags I didn't know I had and I'd finally put them down."},
+          {type:'cta', text:"Soulmats — Sanctuary of Release. soulmats.us. You don't have to know what you're carrying to let it go. You just have to have somewhere safe to put it down."}
+        ],
+        why:"The avatar carries unnamed, subconscious emotional weight. The entire ad validates not knowing what the thing is — which is the exact experience of this buyer. Sei He Ki's meaning is introduced as 'doesn't ask you to name anything' which is the perfect mechanism for someone who cannot journal their way to the feeling."
+      },
+      warm: {
+        label:'Warm — Solution Aware',tagClass:'t-warm',
+        format:'UGC Reel · 45s',hook:'Skeptic Validation',
+        text:[
+          {type:'hook', text:"Every healing modality I'd tried asked me to name what I was feeling. I couldn't."},
+          {text:"Not because I wasn't self-aware. Because the thing was below the naming. Below where words reach."},
+          {text:"Sei He Ki works subconsciously. You don't have to understand it. You just have to return to it — same mat, same symbol, same six minutes — until your nervous system trusts the space enough to let the stored things move."},
+          {text:"Day seventeen I cried on my mat and I didn't know why. That was the healing. Not understanding it. Letting it happen."},
+          {type:'cta', text:"Sanctuary of Release. soulmats.us. The thing you can't name doesn't need a name. It needs a place."}
+        ],
+        why:"'The thing you can't name doesn't need a name. It needs a place.' This is the entire proposition compressed into one sentence. Perfect close for this avatar."
+      },
+      retarget: {
+        label:'Retargeting — Product Aware',tagClass:'t-hot',
+        format:'Static Image + Copy',hook:'Symbol Energy',
+        text:[
+          {type:'hook', text:"Sei He Ki works below the level of words."},
+          {text:"You don't have to know what you're carrying to let it go. You just have to be in the right place long enough for it to move."},
+          {text:"You've been thinking about this. Maybe that's what the thing is — your body recognising what it needs."},
+          {type:'cta', text:"Your Sanctuary of Release. soulmats.us — 21 days included."}
+        ],
+        why:"'Maybe that's what the thing is — your body recognising what it needs.' Frames their consideration of the product as an instinct, not a purchase decision."
+      }
+    }
+  },
+
+  time: {
+    collection:'Restoration',collectionColor:'var(--restoration)',
+    name:'Sanctuary of Time',symbol:'Hon Sha Ze Sho Nen',
+    meaning:'The Reiki distance symbol — its name means "no past, no present, no future." Dissolves the boundaries of time, allowing healing to reach across distance, memory, and what has not yet come.',
+    avatar:'She is haunted by something from her past — not necessarily trauma, but an event, a version of herself, a loss, a choice, or a relationship that she has not been able to fully leave behind. Or she is anxious about the future in a way that makes the present feel impossible to inhabit.',
+    ads: {
+      cold: {
+        label:'Cold — Problem Aware',tagClass:'t-cold',
+        format:'UGC Reel · 65s',hook:'Permission Hook',
+        text:[
+          {type:'hook', text:"If you have a year that you keep returning to — a version of yourself, a loss, something that happened — that you cannot fully leave in the past, I want to share something with you."},
+          {text:"I had a year like that. 2019. I won't go into the details because they're mine and they're private, but something happened that I carried forward in a way I didn't know how to put down."},
+          {text:"Not every day. Not dramatically. But sometimes I'd be in a perfectly fine moment and feel the shadow of that year fall across it. Like the past had a long reach."},
+          {text:"I tried therapy. I tried talking about it. I understood it. And it was still there."},
+          {text:"Someone introduced me to Hon Sha Ze Sho Nen. The Reiki distance symbol. Its name translates to: no past, no present, no future. It works across the boundaries of time — allowing healing to reach not just what's happening now but what happened before, and what is feared ahead."},
+          {text:"I'm not going to tell you it erased 2019. But here is what I will tell you."},
+          {text:"Three weeks of standing on that mat every morning. Six minutes. The symbol beneath my feet. And something about the practice — something about returning to the present moment, same place, same intention, every day — the past started to lose its grip. Just slightly. Just enough."},
+          {text:"The shadow still exists. But it stopped following me quite so closely."},
+          {type:'cta', text:"Soulmats — Sanctuary of Time. soulmats.us. The past doesn't need to be erased to stop running your present. It just needs somewhere to stay."}
+        ],
+        why:"Deeply personal hook — 'a year you keep returning to' will stop the specific avatar cold. The result is honest: the past doesn't disappear, it loses its grip. That honesty is what converts the sophisticated, therapy-experienced buyer."
+      },
+      warm: {
+        label:'Warm — Solution Aware',tagClass:'t-warm',
+        format:'UGC Reel · 45s',hook:'Skeptic Validation',
+        text:[
+          {type:'hook', text:"I understood my past. I'd processed it. It was still running my present."},
+          {text:"Hon Sha Ze Sho Nen. No past, no present, no future. The Reiki symbol that dissolves time boundaries and allows healing to reach backward — into what happened — and forward — into what is feared."},
+          {text:"The mat wasn't a time machine. But twenty-one mornings of returning to the same symbol, the same six minutes, the same present moment — my nervous system started to believe that here, now, was the place. Not then. Not later. Here."},
+          {text:"The past lost about thirty percent of its grip. That sounds small. It changed everything."},
+          {type:'cta', text:"Sanctuary of Time. soulmats.us. You can't unhappen the past. But you can stop living there."}
+        ],
+        why:"'The past lost about thirty percent of its grip. That sounds small. It changed everything.' Specific, honest, powerful. This is the language of the therapy-veteran who doesn't trust exaggerated claims."
+      },
+      retarget: {
+        label:'Retargeting — Product Aware',tagClass:'t-hot',
+        format:'Static Image + Copy',hook:'Symbol Energy',
+        text:[
+          {type:'hook', text:"Hon Sha Ze Sho Nen. No past. No present. No future."},
+          {text:"Just this moment. This mat. This symbol that knows how to reach across time and touch what still needs healing."},
+          {text:"The year you keep returning to doesn't have to keep following you. There is a place to leave it."},
+          {type:'cta', text:"Your Sanctuary of Time. soulmats.us — 21 days included."}
+        ],
+        why:"'The year you keep returning to' is the micro-detail that proves we understand the avatar. Assumes the specific pain without naming it."
+      }
+    }
+  },
+
+  alignment: {
+    collection:'Nature',collectionColor:'var(--nature)',
+    name:'Sanctuary of Alignment',symbol:'7 Chakras',
+    meaning:'The seven energy centres running from root to crown. When energy moves freely through all seven, the whole person is integrated — physical, emotional, mental, and spiritual. Blockages in any chakra manifest as specific patterns of difficulty.',
+    avatar:'She knows about chakras. Has probably done a chakra quiz. Knows which ones are blocked. Knows what it means — root chakra means safety, throat chakra means self-expression, heart chakra means love. But knowing which one is blocked and actually unblocking it are two different things.',
+    ads: {
+      cold: {
+        label:'Cold — Problem Aware',tagClass:'t-cold',
+        format:'UGC Reel · 60s',hook:'Permission Hook',
+        text:[
+          {type:'hook', text:"If you know which chakra is blocked and you still can't shift it — you're not missing more information. You're missing a practice."},
+          {text:"I've taken every chakra quiz. I know my root is underactive and my throat has been in shutdown since approximately 2017. I understand the theory completely."},
+          {text:"The theory didn't fix anything. I'd go to yoga, focus on root chakra poses, feel slightly better, and then be back in the same patterns by Tuesday."},
+          {text:"Because I was treating the chakra work like an event. Something I went to. Not somewhere I returned from."},
+          {text:"What creates real energetic change isn't the session. It's the daily return. The physical practice of coming back to the same space, the same symbols, the same intention — until your body starts to reorganise around the feeling of flowing rather than blocked."},
+          {text:"Seven chakras. Root to crown. The 7 Chakras mat has them all — and the 21-day audio guides you through each one, building the energetic alignment your body already knows how to achieve. It just needs a place to practice it daily."},
+          {text:"By week three I noticed I was speaking in meetings without the thing that usually stopped me. Not fixed. Just — less stopped. The throat wasn't roaring open. It was just slightly less closed. That is enormous."},
+          {type:'cta', text:"Soulmats — Sanctuary of Alignment. soulmats.us. You know what's blocked. Now give it a daily practice."}
+        ],
+        why:"'You're not missing more information. You're missing a practice.' Is the exact reframe this chakra-knowledgeable but practically stuck avatar needs. Validates their existing knowledge while repositioning the product as the missing piece."
+      },
+      warm: {
+        label:'Warm — Solution Aware',tagClass:'t-warm',
+        format:'UGC Reel · 40s',hook:'Skeptic Validation',
+        text:[
+          {type:'hook', text:"I knew my blocked chakras better than some practitioners know theirs. Still blocked."},
+          {text:"The understanding was never the issue. The daily return was."},
+          {text:"Seven chakras, root to crown, all present beneath my feet every morning. Six minutes. Twenty-one days. Your nervous system building the muscle memory of what alignment actually feels like in the body — not the idea of alignment. The feeling."},
+          {text:"My throat chakra is not healed. But I said something in a meeting last week that I would have swallowed two months ago. That's alignment in action."},
+          {type:'cta', text:"Sanctuary of Alignment. soulmats.us. From knowing to feeling."}
+        ],
+        why:"'From knowing to feeling' is a three-word close that perfectly encapsulates the transformation this avatar needs. The specific throat chakra example is concrete proof."
+      },
+      retarget: {
+        label:'Retargeting — Product Aware',tagClass:'t-hot',
+        format:'Static Image + Copy',hook:'Symbol Energy',
+        text:[
+          {type:'hook', text:"Root to crown. Seven centres. All present."},
+          {text:"You already know which one is blocked. The 7 Chakras mat and 21-day audio are built to address all seven — systematically, daily, in six minutes."},
+          {text:"Not a quiz. Not a concept. A practice."},
+          {type:'cta', text:"Your Sanctuary of Alignment. soulmats.us"}
+        ],
+        why:"'Not a quiz. Not a concept. A practice.' Directly mirrors the frustration articulated in the cold ad — speaks to the solution-seeking avatar who is tired of theory."
+      }
+    }
+  },
+
+  silence: {
+    collection:'Nature',collectionColor:'var(--nature)',
+    name:'Sanctuary of Silence',symbol:'Om',
+    meaning:'The primordial sound — the vibration from which all existence emerges. To sit with Om is to remember that beneath all noise, beneath all thought, there is a hum that has always been there and always will be.',
+    avatar:'She is overwhelmed by noise. Not literally — she has a loud life, a loud mind, possibly a loud household. She craves silence but cannot find it. When she does get quiet she fills it immediately. She is afraid of what silence might contain. But she is also exhausted by the noise.',
+    ads: {
+      cold: {
+        label:'Cold — Problem Aware',tagClass:'t-cold',
+        format:'UGC Reel · 60s',hook:'Permission Hook',
+        text:[
+          {type:'hook', text:"If the idea of five minutes of silence sounds more threatening than relaxing — you're the person I'm talking to."},
+          {text:"I told myself I was too busy for quiet. That was easier than admitting I was afraid of it."},
+          {text:"Because when it got quiet — even for a moment — I could hear everything I'd been outrunning. The worry. The grief that I kept moving fast enough to stay ahead of. The question underneath everything that I hadn't let myself fully ask."},
+          {text:"So I kept the noise going. Podcast in the shower. Music while cooking. Something playing while I fell asleep. A constant buffer between me and the quiet."},
+          {text:"And I was so exhausted. Not from doing too much. From the maintenance of the noise."},
+          {text:"Om is the primordial sound. Before language. Before thought. The vibration that existed before everything else. To sit with Om is to discover that beneath all your noise — beneath the worry and the rushing and the filling of every space — there is something already here. Something that has always been here. That doesn't need the noise. That was there before the noise started."},
+          {text:"Six minutes on the Om mat every morning. The guided audio meeting me in the silence rather than demanding I produce it."},
+          {text:"Week two I sat down and let the quiet happen. Just for a moment. Nothing terrible came out of it. Just me, without the buffer, feeling slightly more myself than I had in a long time."},
+          {type:'cta', text:"Soulmats — Sanctuary of Silence. soulmats.us. The silence is not empty. It's where you actually live."}
+        ],
+        why:"The hook is the most counterintuitive in the collection — addressing someone who fears the product's core offering. This creates massive credibility with the avatar who has been afraid to admit the truth. 'The maintenance of the noise' is the exact private language of the anxiety-driven busy person."
+      },
+      warm: {
+        label:'Warm — Solution Aware',tagClass:'t-warm',
+        format:'UGC Reel · 40s',hook:'Skeptic Validation',
+        text:[
+          {type:'hook', text:"Every meditation I'd tried asked me to get quiet. My brain had a full agenda for what would happen then."},
+          {text:"The Om mat meets you differently. The audio doesn't demand stillness — it accompanies you into it. Slowly. The same six minutes, the same symbol, the same return until your nervous system stops treating quiet like a threat."},
+          {text:"Om. The sound before all sound. What's beneath the noise you've been maintaining is not what you're afraid of. It's who you actually are."},
+          {text:"I found out in week three. I've been going back every morning since."},
+          {type:'cta', text:"Sanctuary of Silence. soulmats.us. Six minutes. No agenda. Just the hum that was always there."}
+        ],
+        why:"'The sound before all sound. What's beneath the noise you've been maintaining is not what you're afraid of. It's who you actually are.' Reframes the fear directly and converts it into desire."
+      },
+      retarget: {
+        label:'Retargeting — Product Aware',tagClass:'t-hot',
+        format:'Static Image + Copy',hook:'Symbol Energy',
+        text:[
+          {type:'hook', text:"Om. Before language. Before thought."},
+          {text:"The vibration that was here before everything you're carrying. Still here, beneath all of it."},
+          {text:"Six minutes every morning. Not to achieve silence. To remember it was always there."},
+          {type:'cta', text:"Your Sanctuary of Silence. soulmats.us — 21 days included."}
+        ],
+        why:"'Not to achieve silence. To remember it was always there.' Removes the performance pressure that caused the avatar to fear meditation in the first place."
+      }
+    }
+  },
+
+  rebirth: {
+    collection:'Nature',collectionColor:'var(--nature)',
+    name:'Sanctuary of Rebirth',symbol:'Lotus Flower',
+    meaning:'The lotus grows from mud into light — rooted in darkness, blooming toward the sun. The symbol of transformation: beauty that comes not despite difficulty, but because of it.',
+    avatar:'She has been through something. A loss, a divorce, an illness, a period of darkness, or a version of herself that she is leaving behind. She is not broken — she is in transition. She is trying to become someone new without quite knowing who that person is yet. She needs permission to rise.',
+    ads: {
+      cold: {
+        label:'Cold — Problem Aware',tagClass:'t-cold',
+        format:'UGC Reel · 65s',hook:'Permission Hook',
+        text:[
+          {type:'hook', text:"If you've been through something that changed you and you're still figuring out who you are on the other side — this is going to feel familiar."},
+          {text:"There's a particular exhaustion that comes with transition. Not the transition itself — after it. When the hard part is technically over and everyone expects you to be okay and you're mostly okay but you're also not quite yourself yet. And you can't explain why because the words for it don't really exist."},
+          {text:"I kept waiting to arrive at the new version. Kept thinking I'd wake up one morning and feel like I'd landed."},
+          {text:"But becoming someone new after something hard doesn't happen in a moment. It happens in mornings. In the small, repeated choice to orient toward the light even when you're not sure you've fully left the mud."},
+          {text:"The Lotus grows in mud. That's not incidental to its meaning — it's the whole point. It doesn't rise despite the darkness. It rises because of it. The roots are what make the bloom possible."},
+          {text:"The Lotus mat. Six minutes every morning, the same symbol beneath my feet, the guided audio reminding me that I don't have to have arrived to be rising."},
+          {text:"I didn't wake up new. I woke up daily with somewhere to face. And over weeks, that became enough. That became the practice of becoming."},
+          {type:'cta', text:"Soulmats — Sanctuary of Rebirth. soulmats.us. You don't have to have arrived. You just have to keep facing the light."}
+        ],
+        why:"This is the most emotionally resonant cold ad in the collection. 'Mostly okay but not quite yourself yet' is the exact private language of the post-difficulty buyer. The Lotus mechanism — rising because of the mud, not despite it — reframes their pain as the source of their becoming rather than an obstacle to it."
+      },
+      warm: {
+        label:'Warm — Solution Aware',tagClass:'t-warm',
+        format:'UGC Reel · 45s',hook:'Skeptic Validation',
+        text:[
+          {type:'hook', text:"I'd been told to 'give myself grace' so many times it had stopped meaning anything."},
+          {text:"The Lotus doesn't rise by being told to. It rises by having roots deep enough in the dark to push upward. Every morning. The same direction."},
+          {text:"Six minutes on the Lotus mat. The symbol of becoming beneath my feet. The audio not asking me to be okay — just asking me to orient toward the light."},
+          {text:"I don't know exactly when I crossed from transition into arrival. I just noticed one day that I felt like myself — a new version, but mine. The mat was where I kept going to figure out who she was."},
+          {type:'cta', text:"Sanctuary of Rebirth. soulmats.us. The becoming happens in the returning."}
+        ],
+        why:"'The becoming happens in the returning' is one of the strongest closes in the bible. Poetic, true, direct. 'Give myself grace' as the failed solution validates the audience's exhaustion with empty wellness advice."
+      },
+      retarget: {
+        label:'Retargeting — Product Aware',tagClass:'t-hot',
+        format:'Static Image + Copy',hook:'Symbol Energy',
+        text:[
+          {type:'hook', text:"The Lotus grows from mud."},
+          {text:"Not despite it. Because of it. The roots in the dark are what make the bloom possible. What you've been through is not separate from who you're becoming — it's what makes it real."},
+          {text:"You've been thinking about this mat. That means something. The rising has already begun."},
+          {type:'cta', text:"Your Sanctuary of Rebirth. soulmats.us — 21 days included."}
+        ],
+        why:"'The rising has already begun' is the most powerful retargeting close in the collection. It meets the avatar exactly where she is — already in motion, just needing confirmation."
+      }
+    }
+  },
+
+  roots: {
+    collection:'Nature',collectionColor:'var(--nature)',
+    name:'Sanctuary of Roots',symbol:'Tree of Life',
+    meaning:'The Tree of Life stands with roots as deep as its branches are high — the balance between earth and sky, between what anchors and what lifts, between stability and growth. The quiet strength of simply being grounded.',
+    avatar:'She feels unmoored. Life has changed — a move, a relationship ending, a career shift, children leaving, something that was her anchor is gone and she has not found a new one. Or she has always been this way — a woman who has no natural stillness, who has difficulty with belonging. She needs roots.',
+    ads: {
+      cold: {
+        label:'Cold — Problem Aware',tagClass:'t-cold',
+        format:'UGC Reel · 60s',hook:'Permission Hook',
+        text:[
+          {type:'hook', text:"If you've lost something that used to be your anchor and haven't found what comes next — stay with me."},
+          {text:"My anchor was my marriage. When that ended I discovered how much of my sense of groundedness had been borrowed from the structure of it. The house. The shared routine. The assumption that certain things would stay."},
+          {text:"Without it I was surprised by how quickly I started to drift. Not dramatically — just the feeling of not quite knowing where I stood. Literally and otherwise."},
+          {text:"I tried to build new routines. Tried to create structure. But the things I built felt like scaffolding, not roots. Temporary, functional, not mine."},
+          {text:"The Tree of Life doesn't grow its roots by deciding to be grounded. It grows them by going back to the same ground, every day, drawing from the same source, in the same place. Roots are not a decision. They're a practice."},
+          {text:"Standing on the Tree of Life mat every morning — same symbol, same ground, same six minutes of audio asking my body to feel what being rooted feels like — something started to form. Not a new anchor borrowed from someone else. Something of my own."},
+          {text:"By month two I noticed I wasn't waiting for something to make me feel stable. The stability was starting to come from inside. From the fact that every morning I had gone back to the same place and asked my body to remember what grounded felt like."},
+          {type:'cta', text:"Soulmats — Sanctuary of Roots. soulmats.us. Roots aren't given to you. They're grown. Six minutes a day is where yours start."}
+        ],
+        why:"The divorce/anchor-loss inciting incident is specific and common enough to stop the right scroll. 'Scaffolding not roots' is a perfect distinction that names the exact experience of the unmoored woman. The mechanism — roots as practice not decision — reframes the entire concept of stability as achievable."
+      },
+      warm: {
+        label:'Warm — Solution Aware',tagClass:'t-warm',
+        format:'UGC Reel · 40s',hook:'Skeptic Validation',
+        text:[
+          {type:'hook', text:"Everything I tried to make myself feel grounded felt like scaffolding. External, temporary, not mine."},
+          {text:"The Tree of Life doesn't have roots because it decided to. It has roots because it went back to the same ground, every day, and drew from the same source."},
+          {text:"Six minutes every morning. Same mat, same symbol, same return. My nervous system slowly learning what it feels like to be rooted — from the inside. Not borrowed. Mine."},
+          {text:"Eight weeks later someone said I seemed different. Steadier. I didn't tell them it was six minutes a day on a mat. But it was."},
+          {type:'cta', text:"Sanctuary of Roots. soulmats.us. What is grown cannot be taken."}
+        ],
+        why:"'What is grown cannot be taken' is the close that directly addresses the loss the avatar has experienced — their borrowed anchor was taken from them. What the mat gives them is theirs permanently."
+      },
+      retarget: {
+        label:'Retargeting — Product Aware',tagClass:'t-hot',
+        format:'Static Image + Copy',hook:'Symbol Energy',
+        text:[
+          {type:'hook', text:"The Tree of Life stands because its roots go as deep as its branches reach high."},
+          {text:"You cannot grow upward without going downward first. Stability is not something you find. It's something you grow — in the same place, every day, drawing from the same source."},
+          {text:"You've been circling this. Maybe your body already knows it's time to put down roots."},
+          {type:'cta', text:"Your Sanctuary of Roots. soulmats.us — 21 days of audio, included."}
+        ],
+        why:"'You've been circling this. Maybe your body already knows it's time to put down roots.' Speaks to the avatar's circling behavior (she's been to the site before) and frames her hesitation as preparation rather than doubt."
+      }
+    }
+  }
+};
+
+// ── RENDER SECTIONS ──
+function renderAd(ad) {
+  let html = `<div class="ad-meta">
+    <span class="tag ${ad.tagClass}">${ad.label}</span>
+    <span class="tag t-format">${ad.format}</span>
+    <span class="tag t-hook">${ad.hook}</span>
+  </div>
+  <div class="ad-body">`;
+
+  ad.text.forEach(block => {
+    if (block.type === 'hook') {
+      html += `<p class="hook-p">${block.text}</p>`;
+    } else if (block.type === 'product') {
+      html += `<p class="bold-p">${block.text}</p>`;
+    } else if (block.type === 'cta') {
+      html += `<p class="cta-p">${block.text}</p>`;
+    } else if (block.dialogue) {
+      html += `<p class="dialogue">${block.text}</p>`;
+    } else {
+      html += `<p>${block.text}</p>`;
+    }
+  });
+
+  html += `</div>`;
+  html += `<div class="why-box"><strong>Why this works</strong>${ad.why}</div>`;
+  return html;
+}
+
+function buildMatSection(key, mat) {
+  const collClass = mat.collection.toLowerCase();
+  const sec = document.getElementById('sec-' + key);
+  if (!sec) return;
+
+  sec.innerHTML = `
+    <div class="mat-header">
+      <div class="mat-collection-tag" style="color:${mat.collectionColor}">${mat.collection} Collection</div>
+      <div class="mat-title">${mat.name}</div>
+      <div class="mat-symbol">Symbol: ${mat.symbol}</div>
+      <div class="mat-meaning">"${mat.meaning}"</div>
+      <div class="mat-avatar"><strong>Avatar:</strong> ${mat.avatar}</div>
+    </div>
+
+    <div class="ad-tabs">
+      <button class="ad-tab active" onclick="showAd('${key}','cold',this)">Cold — Problem Aware</button>
+      <button class="ad-tab" onclick="showAd('${key}','warm',this)">Warm — Solution Aware</button>
+      <button class="ad-tab" onclick="showAd('${key}','retarget',this)">Retargeting</button>
+    </div>
+
+    <div class="ad-panel active" id="${key}-cold">${renderAd(mat.ads.cold)}</div>
+    <div class="ad-panel" id="${key}-warm">${renderAd(mat.ads.warm)}</div>
+    <div class="ad-panel" id="${key}-retarget">${renderAd(mat.ads.retarget)}</div>
+  `;
+}
+
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const sec = document.getElementById('sec-' + id);
+  if (sec) sec.classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showAd(matKey, adKey, btn) {
+  const panels = document.querySelectorAll(`#sec-${matKey} .ad-panel`);
+  const tabs = document.querySelectorAll(`#sec-${matKey} .ad-tab`);
+  panels.forEach(p => p.classList.remove('active'));
+  tabs.forEach(t => t.classList.remove('active'));
+  document.getElementById(`${matKey}-${adKey}`).classList.add('active');
+  btn.classList.add('active');
+}
+document.addEventListener('DOMContentLoaded', function() {
+  Object.keys(MATS).forEach(key => {
+    buildMatSection(key, MATS[key]);
+  });
+});
+</script>
+
+<!-- MAT SECTION PLACEHOLDERS — must be before </body> -->
+<div class="section" id="sec-ascension"></div>
+<div class="section" id="sec-potential"></div>
+<div class="section" id="sec-order"></div>
+<div class="section" id="sec-connection"></div>
+<div class="section" id="sec-light"></div>
+<div class="section" id="sec-power"></div>
+<div class="section" id="sec-release"></div>
+<div class="section" id="sec-time"></div>
+<div class="section" id="sec-alignment"></div>
+<div class="section" id="sec-silence"></div>
+<div class="section" id="sec-rebirth"></div>
+<div class="section" id="sec-roots"></div>
+
+</body>
+</html>
